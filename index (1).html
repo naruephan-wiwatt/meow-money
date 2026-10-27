@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>แมวเหมียวจดเงิน</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{--bg:#fff0f5;--card:#fff;--ink:#5a2a3e;--mute:#a07888;--pink:#ff6f9f;--soft:#ffe1ec;--line:#ffd0e0;--shadow:0 4px 14px rgba(255,111,159,.18);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#2a1822;--card:#3a2230;--ink:#ffe6ef;--mute:#d6a5b8;--soft:#4a2b3b;--line:#5a3548;--shadow:0 4px 14px rgba(0,0,0,.3)}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#2a1822;--card:#3a2230;--ink:#ffe6ef;--mute:#d6a5b8;--soft:#4a2b3b;--line:#5a3548;--shadow:0 4px 14px rgba(0,0,0,.3)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Mali','Sarabun','Noto Sans Thai',system-ui,sans-serif;padding-bottom:150px;max-width:520px;margin-inline:auto}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 16px 8px;display:flex;align-items:center;gap:10px}
+header .logo{width:52px;flex:none}
+header h1{font-size:18px;margin:0;line-height:1.2}
+header small{color:var(--mute);font-size:12px}
+.mn{margin-left:auto;display:flex;align-items:center;gap:4px;background:var(--card);border-radius:999px;padding:4px;box-shadow:var(--shadow)}
+.mn b{font-size:13px;min-width:88px;text-align:center}
+.mn button{border:0;background:var(--soft);color:var(--pink);width:30px;height:30px;border-radius:50%;font-size:16px;font-weight:700;font-family:inherit}
+main{padding:4px 16px}
+.card{background:var(--card);border-radius:22px;padding:14px;margin-bottom:14px;box-shadow:var(--shadow)}
+.hero{display:flex;gap:10px;align-items:center;background:linear-gradient(135deg,#ff9fc0,#ff6f9f);color:#fff}
+.hero .big{font-size:40px;font-weight:700;line-height:1.1}.hero .sm{font-size:13px;margin-top:4px;opacity:.95}
+.hero .bub{font-size:12px;background:rgba(255,255,255,.25);border-radius:14px;padding:6px 10px;margin-top:6px;display:inline-block}
+.hero svg{width:78px;flex:none}
+.day{display:flex;justify-content:space-between;font-size:13px;color:var(--mute);margin:14px 4px 6px;font-weight:600}
+.row{display:flex;align-items:center;gap:10px;width:100%;border:0;background:var(--card);color:var(--ink);font-family:inherit;text-align:left;padding:10px 12px;border-radius:18px;margin-bottom:8px;box-shadow:var(--shadow)}
+.ic{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:20px;flex:none}
+.row .t{flex:1;min-width:0}.row .t div{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .t small{color:var(--mute);font-size:12px}
+.row .a{font-weight:700;color:var(--pink)}
+.empty{text-align:center;color:var(--mute);padding:30px 10px}.empty svg{width:110px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.stats .card{margin:0;padding:12px}.stats small{color:var(--mute);font-size:12px}.stats b{display:block;font-size:18px;margin-top:2px}
+.seg{display:flex;background:var(--soft);border-radius:999px;padding:3px;margin-bottom:10px}
+.seg button{flex:1;border:0;background:none;font-family:inherit;color:var(--mute);padding:7px 0;border-radius:999px;font-size:13px;font-weight:600}
+.seg button.on{background:var(--pink);color:#fff}
+.ch{width:100%;height:auto}.ch text{fill:var(--mute);font-size:9px;font-family:inherit}.ch .tv{fill:var(--ink);font-size:8px}
+h3{margin:0 0 10px;font-size:15px}
+.leg{display:flex;align-items:center;gap:8px;font-size:13px;margin:7px 0}.leg i{width:10px;height:10px;border-radius:50%;flex:none}
+.leg .bar{flex:1;height:6px;background:var(--soft);border-radius:9px;overflow:hidden}.leg .bar span{display:block;height:100%}
+.btn{display:block;width:100%;border:0;border-radius:16px;padding:14px;font-family:inherit;font-size:15px;font-weight:700;background:var(--pink);color:#fff;margin-top:10px}
+.btn.alt{background:var(--soft);color:var(--pink)}.btn.del{background:none;color:#e04a6a}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:6;display:flex;justify-content:center;background:var(--card);box-shadow:0 -4px 14px rgba(255,111,159,.15);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));border-radius:22px 22px 0 0}
+nav>div{display:flex;width:100%;max-width:520px}
+nav button{flex:1;border:0;background:none;font-family:inherit;color:var(--mute);font-size:11px;font-weight:600;padding:6px 0}
+nav button span{display:block;font-size:22px}nav button.on{color:var(--pink)}
+.fab{position:fixed;right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:6;width:60px;height:60px;border-radius:50%;border:0;background:var(--pink);color:#fff;font-size:34px;box-shadow:0 6px 18px rgba(255,111,159,.5)}
+.ov{position:fixed;inset:0;z-index:20;background:rgba(90,42,62,.45);display:none;align-items:flex-end;justify-content:center}
+.ov.show{display:flex}
+.sheet{background:var(--card);width:100%;max-width:520px;border-radius:26px 26px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));max-height:92%;overflow:auto}
+.sheet h2{margin:0 0 10px;font-size:17px;display:flex;align-items:center;gap:8px}.sheet h2 svg{width:36px}
+.amt{width:100%;border:2px solid var(--line);border-radius:16px;background:var(--bg);color:var(--ink);font-family:inherit;font-size:30px;font-weight:700;padding:10px 14px;text-align:center}
+.amt:focus,.inp:focus{outline:0;border-color:var(--pink)}
+.inp{width:100%;border:2px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink);font-family:inherit;font-size:15px;padding:10px 12px;margin-top:8px}
+.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.chip{border:2px solid transparent;background:var(--soft);color:var(--ink);font-family:inherit;border-radius:16px;padding:8px 2px;font-size:11px}
+.chip span{display:block;font-size:22px}.chip.on{border-color:var(--pink);background:var(--card);font-weight:700}
+.toast{position:fixed;left:50%;bottom:calc(150px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:13px;z-index:30;opacity:0;transition:.25s;pointer-events:none}
+.toast.show{opacity:1}
+.hint{color:var(--mute);font-size:12px;text-align:center;margin-top:10px;line-height:1.6}
+</style>
+</head>
+<body>
+<header id="hd"></header>
+<main id="main"></main>
+<button class="fab" id="fab" aria-label="เพิ่มรายการ">+</button>
+<nav><div id="nav"></div></nav>
+<div class="ov" id="ov"><div class="sheet" id="sheet"></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const KEY='meowmoney:v1';
+const CATS=[
+{id:'food',n:'อาหาร',e:'🍜',c:'#ff6f9f'},{id:'trip',n:'เดินทาง',e:'🚌',c:'#ffa07a'},
+{id:'shop',n:'ช้อปปิ้ง',e:'🛍️',c:'#c77dff'},{id:'home',n:'บ้าน/บิล',e:'🏠',c:'#7aa7ff'},
+{id:'fun',n:'บันเทิง',e:'🎬',c:'#ffcf56'},{id:'health',n:'สุขภาพ',e:'💊',c:'#5fd3b0'},
+{id:'edu',n:'เรียน',e:'📚',c:'#8ad1ff'},{id:'other',n:'อื่นๆ',e:'✨',c:'#b9a3b0'}];
+const cat=id=>CATS.find(c=>c.id===id)||CATS[7];
+const S={items:[],month:'',tab:'log',chart:'day',draft:null};
+const $=s=>document.querySelector(s);
+const pad=n=>String(n).padStart(2,'0');
+const ds=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const pd=s=>{const[a,b,c]=s.split('-').map(Number);return new Date(a,b-1,c)};
+const fmt=n=>'฿'+Number(n).toLocaleString('th-TH',{maximumFractionDigits:2});
+const short=v=>v>=1000?(v/1000).toFixed(v>=10000?0:1)+'k':String(Math.round(v));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const sum=a=>a.reduce((s,i)=>s+i.amount,0);
+S.month=ds(new Date()).slice(0,7);
+try{const r=localStorage.getItem(KEY);if(r)S.items=JSON.parse(r)||[]}catch(e){}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(S.items))}catch(e){toast('เก็บข้อมูลในเครื่องนี้ไม่ได้')}}
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),1800)}
+const mItems=()=>S.items.filter(i=>i.date.startsWith(S.month));
+const monthLabel=m=>pd(m+'-01').toLocaleDateString('th-TH',{month:'long',year:'numeric'});
+function shift(n){const[y,m]=S.month.split('-').map(Number);const d=new Date(y,m-1+n,1);S.month=d.getFullYear()+'-'+pad(d.getMonth()+1);render()}
+
+function cat_svg(mode){
+const eyes=mode==='sleep'?'<path d="M30 50q6 6 12 0M58 50q6 6 12 0" stroke="#5a2a3e" stroke-width="3" fill="none" stroke-linecap="round"/>':
+'<ellipse cx="36" cy="50" rx="4.5" ry="5.5" fill="#5a2a3e"/><ellipse cx="64" cy="50" rx="4.5" ry="5.5" fill="#5a2a3e"/><circle cx="37.5" cy="48" r="1.6" fill="#fff"/><circle cx="65.5" cy="48" r="1.6" fill="#fff"/>';
+return `<svg viewBox="0 0 100 92" aria-hidden="true"><g stroke="#5a2a3e" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+<path d="M15 42L19 8L46 24Z" fill="#fff"/><path d="M85 42L81 8L54 24Z" fill="#fff"/>
+<path d="M23 33L25 17L37 25Z" fill="#ffb3cd" stroke="none"/><path d="M77 33L75 17L63 25Z" fill="#ffb3cd" stroke="none"/>
+<ellipse cx="50" cy="54" rx="40" ry="34" fill="#fff"/>
+<path d="M12 22l9 4-3 8z" fill="#ff6f9f"/><path d="M30 20l-9 6 5 6z" fill="#ff6f9f"/><circle cx="21" cy="26" r="2.6" fill="#ff9fc0"/>
+<path d="M47 60h6l-3 3.5z" fill="#ff6f9f"/><path d="M50 63.5q-3 6-8 2.5M50 63.5q3 6 8 2.5" fill="none"/>
+<path d="M14 56l14 2M14 66l14-3M86 56L72 58M86 66l-14-3" fill="none" stroke-width="1.8"/></g>${eyes}
+<ellipse cx="26" cy="62" rx="6" ry="4" fill="#ff9fc0" opacity=".55"/><ellipse cx="74" cy="62" rx="6" ry="4" fill="#ff9fc0" opacity=".55"/></svg>`}
+
+function render(){
+$('#hd').innerHTML=`<div class="logo">${cat_svg()}</div><div><h1>แมวเหมียวจดเงิน</h1><small>เมี๊ยว~ ช่วยดูเงินให้นะ</small></div>
+<div class="mn"><button data-a="pm">‹</button><b>${monthLabel(S.month)}</b><button data-a="nm">›</button></div>`;
+$('#nav').innerHTML=[['log','📒','บันทึก'],['dash','📊','ภาพรวม'],['exp','📥','ส่งออก']].map(([k,i,t])=>`<button data-tab="${k}" class="${S.tab===k?'on':''}"><span>${i}</span>${t}</button>`).join('');
+$('#main').innerHTML=S.tab==='log'?viewLog():S.tab==='dash'?viewDash():viewExp();
+}
+
+function viewLog(){
+const it=mItems(),tot=sum(it),td=ds(new Date()),tdSum=sum(it.filter(i=>i.date===td));
+const msg=!it.length?'ยังไม่มีรายการเลยเมี๊ยว':tdSum>0?'ยอดใช้จ่ายวันนี้ จดไว้ให้แล้วเมี๊ยว':'วันนี้ยังไม่ได้ใช้เงินเลย เก่งมาก!';
+let h=`<div class="card hero"><div><small>📅 ${new Date().toLocaleDateString('th-TH',{weekday:'long',day:'numeric',month:'short'})}</small><div class="big">${fmt(tdSum)}</div><span class="bub">🐾 ยอดใช้จ่ายเดือนนี้ ${fmt(tot)}</span></div><div style="margin-left:auto">${cat_svg()}</div></div>`;
+if(!it.length)return h+`<div class="empty">${cat_svg('sleep')}<p>แตะปุ่ม + เพื่อจดรายการแรกได้เลย</p></div>`;
+const days={};it.forEach(i=>(days[i.date]=days[i.date]||[]).push(i));
+Object.keys(days).sort().reverse().forEach(d=>{
+const L=pd(d).toLocaleDateString('th-TH',{weekday:'short',day:'numeric',month:'short'});
+h+=`<div class="day"><span>${L}</span><span>${fmt(sum(days[d]))}</span></div>`;
+days[d].slice().reverse().forEach(i=>{const c=cat(i.cat);
+h+=`<button class="row" data-edit="${i.id}"><div class="ic" style="background:${c.c}33">${c.e}</div><div class="t"><div>${esc(i.note||c.n)}</div><small>${c.n}</small></div><div class="a">${fmt(i.amount)}</div></button>`})});
+return h}
+
+function bars(d,col){
+const W=320,H=130,p=8,max=Math.max(...d.map(x=>x.v),1),bw=(W-p*2)/d.length;
+let s=`<svg viewBox="0 0 ${W} ${H+20}" class="ch"><line x1="${p}" x2="${W-p}" y1="${H}" y2="${H}" stroke="var(--line)"/>`;
+d.forEach((x,i)=>{const h=x.v/max*(H-20),xx=p+i*bw,y=H-h;
+s+=`<rect x="${xx+bw*.15}" y="${y}" width="${bw*.7}" height="${x.v?Math.max(h,2):0}" rx="${Math.min(6,bw*.3)}" fill="${col}"/>`;
+if(d.length<=8&&x.v)s+=`<text class="tv" x="${xx+bw/2}" y="${y-3}" text-anchor="middle">${short(x.v)}</text>`;
+if(d.length<=8||i===0||(i+1)%5===0)s+=`<text x="${xx+bw/2}" y="${H+13}" text-anchor="middle">${x.l}</text>`});
+return s+'</svg>'}
+
+function chartData(){
+if(S.chart==='day'){const[y,m]=S.month.split('-').map(Number),n=new Date(y,m,0).getDate(),a=Array.from({length:n},(_,i)=>({l:i+1,v:0}));
+mItems().forEach(i=>a[+i.date.slice(8)-1].v+=i.amount);return a}
+if(S.chart==='week'){const t=new Date();t.setHours(0,0,0,0);t.setDate(t.getDate()-((t.getDay()+6)%7));const a=[];
+for(let k=7;k>=0;k--){const s=new Date(t);s.setDate(t.getDate()-k*7);const e=new Date(s);e.setDate(s.getDate()+6);
+a.push({l:s.getDate()+'/'+(s.getMonth()+1),v:sum(S.items.filter(i=>i.date>=ds(s)&&i.date<=ds(e)))})}return a}
+const[y,m]=S.month.split('-').map(Number),a=[];
+for(let k=5;k>=0;k--){const d=new Date(y,m-1-k,1),key=d.getFullYear()+'-'+pad(d.getMonth()+1);
+a.push({l:d.toLocaleDateString('th-TH',{month:'short'}),v:sum(S.items.filter(i=>i.date.startsWith(key)))})}return a}
+
+function viewDash(){
+const it=mItems(),tot=sum(it),n=new Date(+S.month.slice(0,4),+S.month.slice(5),0).getDate();
+const by=CATS.map(c=>({...c,v:sum(it.filter(i=>i.cat===c.id))})).filter(c=>c.v>0).sort((a,b)=>b.v-a.v);
+const top=by[0];
+let h=`<div class="stats"><div class="card"><small>รวมเดือนนี้</small><b>${fmt(tot)}</b></div><div class="card"><small>เฉลี่ยต่อวัน</small><b>${fmt(tot/n)}</b></div>
+<div class="card"><small>จำนวนรายการ</small><b>${it.length}</b></div><div class="card"><small>หมวดสูงสุด</small><b>${top?top.e+' '+top.n:'-'}</b></div></div>`;
+h+=`<div class="card"><div class="seg">${[['day','รายวัน'],['week','รายสัปดาห์'],['month','รายเดือน']].map(([k,t])=>`<button data-ch="${k}" class="${S.chart===k?'on':''}">${t}</button>`).join('')}</div>
+<small style="color:var(--mute)">${S.chart==='day'?'แต่ละวันของ'+monthLabel(S.month):S.chart==='week'?'8 สัปดาห์ล่าสุด (เริ่มวันจันทร์)':'6 เดือนล่าสุด'}</small>${bars(chartData(),'var(--pink)')}</div>`;
+h+=`<div class="card"><h3>แยกตามหมวดหมู่</h3>`;
+if(!by.length)return h+`<div class="empty" style="padding:10px">${cat_svg('sleep')}<p>ยังไม่มีข้อมูลเดือนนี้</p></div></div>`;
+let off=0;const R=40,C=2*Math.PI*R;
+h+=`<svg viewBox="0 0 120 120" style="width:170px;display:block;margin:0 auto 8px"><g transform="rotate(-90 60 60)">${by.map(c=>{const len=c.v/tot*C,s=`<circle cx="60" cy="60" r="${R}" fill="none" stroke="${c.c}" stroke-width="18" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}"/>`;off+=len;return s}).join('')}</g>
+<text x="60" y="58" text-anchor="middle" style="fill:var(--mute);font-size:9px">รวม</text><text x="60" y="72" text-anchor="middle" style="fill:var(--ink);font-size:12px;font-weight:700">${short(tot)}</text></svg>`;
+h+=by.map(c=>`<div class="leg"><i style="background:${c.c}"></i><span style="width:92px">${c.e} ${c.n}</span><div class="bar"><span style="width:${c.v/tot*100}%;background:${c.c}"></span></div><b>${fmt(c.v)}</b></div>`).join('');
+return h+'</div>'}
+
+function viewExp(){
+return `<div class="card"><h3>📥 ส่งออกเป็น Excel</h3><p class="hint" style="text-align:left;margin:0">ไฟล์มี 3 ชีต: รายการทั้งหมด, สรุปตามหมวดหมู่ และสรุปรายเดือน</p>
+<button class="btn" data-x="month">ส่งออกเฉพาะ ${monthLabel(S.month)}</button><button class="btn alt" data-x="all">ส่งออกทั้งหมด (${S.items.length} รายการ)</button></div>
+<div class="empty" style="padding:6px">${cat_svg()}</div>
+<p class="hint">ข้อมูลถูกเก็บไว้ในเบราว์เซอร์ของเครื่องนี้<br>ส่งออกเป็นไฟล์เก็บไว้เป็นระยะเพื่อสำรองข้อมูลนะเมี๊ยว</p>`}
+
+function openSheet(id){
+const e=id&&S.items.find(i=>i.id===id);
+const td=ds(new Date());
+S.draft=e?{...e,amount:String(e.amount)}:{id:null,amount:'',cat:'food',note:'',date:S.month===td.slice(0,7)?td:S.month+'-01'};
+drawSheet();$('#ov').classList.add('show');
+if(!e)setTimeout(()=>$('#f-amt')&&$('#f-amt').focus(),50)}
+function drawSheet(){
+const d=S.draft;
+$('#sheet').innerHTML=`<h2>${cat_svg()}${d.id?'แก้ไขรายการ':'เพิ่มรายการใหม่'}</h2>
+<input class="amt" id="f-amt" type="number" inputmode="decimal" min="0" step="any" placeholder="0.00" value="${esc(d.amount)}">
+<div class="chips">${CATS.map(c=>`<button class="chip ${d.cat===c.id?'on':''}" data-cat="${c.id}"><span>${c.e}</span>${c.n}</button>`).join('')}</div>
+<input class="inp" id="f-note" type="text" maxlength="60" placeholder="รายละเอียด (ไม่ใส่ก็ได้)" value="${esc(d.note)}">
+<input class="inp" id="f-date" type="date" value="${d.date}">
+<button class="btn" data-a="save">บันทึก</button>${d.id?'<button class="btn del" data-a="del">🗑️ ลบรายการนี้</button>':''}<button class="btn alt" data-a="close">ยกเลิก</button>`}
+const closeSheet=()=>{$('#ov').classList.remove('show');S.draft=null};
+function saveDraft(){
+const d=S.draft,amt=parseFloat(d.amount);
+if(!(amt>0)){toast('ใส่จำนวนเงินก่อนนะ');$('#f-amt').focus();return}
+if(!d.date){toast('เลือกวันที่ด้วยนะ');return}
+const rec={id:d.id||Date.now().toString(36)+Math.random().toString(36).slice(2,5),date:d.date,amount:Math.round(amt*100)/100,cat:d.cat,note:d.note.trim()};
+const i=S.items.findIndex(x=>x.id===rec.id);
+if(i>=0)S.items[i]=rec;else S.items.push(rec);
+persist();S.month=rec.date.slice(0,7);closeSheet();render();toast(d.id?'แก้ไขแล้วเมี๊ยว':'บันทึกแล้วเมี๊ยว 🐾')}
+
+async function exportX(all){
+const rows=(all?S.items:mItems()).slice().sort((a,b)=>a.date.localeCompare(b.date));
+if(!rows.length){toast('ยังไม่มีข้อมูลให้ส่งออก');return}
+const list=[['วันที่','หมวดหมู่','รายละเอียด','จำนวนเงิน (บาท)'],...rows.map(i=>[i.date,cat(i.cat).n,i.note,i.amount])];
+const byCat=[['หมวดหมู่','จำนวนรายการ','ยอดรวม (บาท)'],...CATS.map(c=>{const r=rows.filter(i=>i.cat===c.id);return[c.n,r.length,sum(r)]}).filter(r=>r[1]),['รวม',rows.length,sum(rows)]];
+const ms={};rows.forEach(i=>{const k=i.date.slice(0,7);ms[k]=ms[k]||[];ms[k].push(i)});
+const byM=[['เดือน','จำนวนรายการ','ยอดรวม (บาท)'],...Object.keys(ms).sort().map(k=>[k,ms[k].length,sum(ms[k])])];
+const name='meow-money-'+(all?'all':S.month);
+try{
+let dl=window.claude?await claude.use('downloads'):null;
+if(!dl)dl={save:async({filename,data})=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data]));a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}};
+if(window.XLSX){const wb=XLSX.utils.book_new();
+[['รายการ',list,[12,12,26,16]],['สรุปหมวดหมู่',byCat,[16,14,16]],['สรุปรายเดือน',byM,[12,14,16]]].forEach(([n,a,w])=>{const ws=XLSX.utils.aoa_to_sheet(a);ws['!cols']=w.map(x=>({wch:x}));XLSX.utils.book_append_sheet(wb,ws,n)});
+await dl.save({filename:name+'.xlsx',data:XLSX.write(wb,{bookType:'xlsx',type:'array'})})}
+else{const q=v=>'"'+String(v).replace(/"/g,'""')+'"';
+await dl.save({filename:name+'.csv',data:'\ufeff'+list.map(r=>r.map(q).join(',')).join('\n')})}
+toast('เรียบร้อยเมี๊ยว 🐾')}catch(e){if(!e||e.code!=='declined')toast('ส่งออกไม่สำเร็จ ลองใหม่อีกครั้งนะ')}}
+
+document.addEventListener('click',e=>{
+const t=e.target.closest('[data-a],[data-tab],[data-edit],[data-ch],[data-cat],[data-x],#fab');if(!t)return;
+if(t.id==='fab')return openSheet();
+const D=t.dataset;
+if(D.tab){S.tab=D.tab;render();window.scrollTo(0,0)}
+else if(D.edit)openSheet(D.edit);
+else if(D.ch){S.chart=D.ch;render()}
+else if(D.cat){S.draft.cat=D.cat;drawSheet()}
+else if(D.x)exportX(D.x==='all');
+else if(D.a==='pm')shift(-1);else if(D.a==='nm')shift(1);
+else if(D.a==='save')saveDraft();else if(D.a==='close')closeSheet();
+else if(D.a==='del'){const i=S.items.findIndex(x=>x.id===S.draft.id);const old=S.items[i];
+if(!D.sure){t.dataset.sure=1;t.textContent='แตะอีกครั้งเพื่อยืนยันการลบ';return}
+S.items.splice(i,1);persist();closeSheet();render();toast('ลบแล้ว')}});
+$('#ov').addEventListener('click',e=>{if(e.target.id==='ov')closeSheet()});
+document.addEventListener('input',e=>{if(!S.draft)return;
+if(e.target.id==='f-amt')S.draft.amount=e.target.value;
+if(e.target.id==='f-note')S.draft.note=e.target.value;
+if(e.target.id==='f-date')S.draft.date=e.target.value});
+render();
+</script>
+</body>
+</html>
